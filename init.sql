@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS config (
   password TEXT NOT NULL,
   host TEXT NOT NULL,
   port INTEGER NOT NULL,
-  database TEXT NOT NULL
+  database TEXT
 );
+INSERT OR IGNORE INTO "main"."config" ("id", "type", "username", "password", "host", "port", "database") VALUES (1, 'mysql', 'root', '123456', '127.0.0.1', 3306, NULL);

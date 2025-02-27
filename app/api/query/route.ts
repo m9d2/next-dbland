@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const db = DatabaseFactory.getDatabase(body.cid);
-    const result = await db.query({ sql: 'select * from mysql.user' });
+    const result = await db.query({ sql: body.sql });
     console.log(result);
     return Response.json({ data: { message: '操作成功' } });
   } catch (error) {

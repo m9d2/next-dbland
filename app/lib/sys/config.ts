@@ -26,4 +26,15 @@ export class ConfigService {
       throw err;
     }
   }
+  
+  async getById(id: number): Promise<Config | null> {
+    try {
+      const row = await DBDriver.getInstance().findById('config', id);
+      return row as Config;
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      throw err;
+    }
+  }
+  
 }
