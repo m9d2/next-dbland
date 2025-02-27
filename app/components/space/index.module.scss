@@ -1,0 +1,40 @@
+.space {
+  display: inline-flex;
+  gap: 8px; // 默认间距
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.alignStart {
+  align-items: flex-start;
+}
+
+.alignEnd {
+  align-items: flex-end;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignBaseline {
+  align-items: baseline;
+}
+
+.small {
+  gap: 6px;
+}
+
+.medium {
+  gap: 16px;
+}
+
+.large {
+  gap: 24px;
+}

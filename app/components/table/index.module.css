@@ -1,0 +1,36 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    position: relative;
+    background-color: #f2f2f2;
+}
+
+.table th::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    background-color: transparent;
+    cursor: col-resize;
+}
+
+.table td input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.active {
+    background-color: #f2f2f2;
+}

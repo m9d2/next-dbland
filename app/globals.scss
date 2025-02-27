@@ -1,0 +1,95 @@
+@mixin light {
+  --red: red;
+  --green: green;
+  --theme: light;
+  --white: #ffffff;
+  --font-size: 13px;
+  --color-primary: #0060b7;
+  --color-secondary: #1f7ac4;
+  --color-danger: #ff4d4f;
+  --color-bg-menu: #1A1A1A;
+
+  --color-border-primary: #f0f0f0;
+  --color-border-secondary: #f0f0f0;
+
+  --button-text-color-primary: #ffffff;
+  --button-text-color-secondary: var(--color-font);
+  --button-text-color-danger: #ffffff;
+  --button-text-color-disabled: rgba(0, 0, 0, 0.25);
+  --button-bg-color-primary: var(--color-primary);
+  --button-bg-color-secondary: var(--color-secondary);
+  --button-bg-color-danger: var(--color-danger);
+  --button-bg-color-disabled: rgba(0, 0, 0, 0.04);
+  --button-bg-hover-color-primary: var(--color-secondary);
+  --button-border-color-primary: #ffffff;
+  --button-border-color-secondary: #d9d9d9;
+  --button-border-color-disabled: #d9d9d9;
+  --border-color-spinner-primary: #fff;
+  --border-color-spinner-secondary: var(--color-secondary);
+
+  --color-bg-container-disabled: rgba(0, 0, 0, 0.04);
+  --color-text-container-disabled: rgba(0, 0, 0, 0.25);
+
+  --tabs-card-bg: rgba(0, 0, 0, 0.02);
+
+
+  --font-color: rgba(0, 0, 0, 0.88);
+  --color-bg-bar: #f0f0f0;
+  --content-bg: #fff;
+  --color-bg-header: rgb(249, 249, 249);
+  --color-bg-btn: rgba(0, 0, 0, 0.06);
+  --color-border: rgba(5, 5, 5, 0.06);
+}
+
+@mixin dark {
+  --theme: dark;
+  --white: #ffffff;
+  --color-primary: #0060b7;
+  --color-secondary: #1f7ac4;
+  --color-bg-bar: 001529;
+  --content-bg: #1a1a1a;
+  --font-color: rgba(0, 0, 0, 0.88);
+  --color-bg-btn: rgba(0, 0, 0, 0.06);
+  --color-border: rgba(5, 5, 5, 0.06);
+  --color-bg-menu: #1A1A1A;
+}
+
+:root {
+  @include light;
+}
+
+.light {
+  @include light;
+}
+
+.dark {
+  @include dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include dark;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+input {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

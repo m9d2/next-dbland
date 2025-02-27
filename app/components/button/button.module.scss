@@ -1,0 +1,130 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: var(--font-size);
+  padding: 0 4px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+
+  &-primary {
+    background-color: var(--button-bg-color-primary);
+    border-color: var(--button-border-color-primary);
+    color: var(--button-text-color-primary);
+
+    &:hover {
+      background-color: var(--button-bg-hover-color-primary);
+    }
+
+    &:disabled {
+      border-color: var(--button-border-color-disabled);
+      background-color: var(--button-bg-color-disabled);
+      cursor: not-allowed;
+      color: var(--button-text-color-disabled);
+    }
+
+    &.loading {
+      background-color: var(--color-secondary) !important;
+    }
+  }
+
+  &-secondary {
+    background-color: white;
+    color: var(--button-text-color-secondary);
+    border: 1px solid var(--button-border-color-secondary);
+
+    &:hover {
+      border: var(--color-primary) solid 1px;
+      color: var(--color-primary);
+    }
+
+    &:disabled {
+      border-color: var(--button-border-color-disabled);
+      background-color: var(--button-bg-color-disabled);
+      cursor: not-allowed;
+      color: var(--button-text-color-disabled);
+    }
+  }
+
+  &-danger {
+    background-color: var(--button-bg-color-danger);
+    color: white;
+    border-color: var(--button-bg-color-danger);
+
+    &:hover {
+      background-color: #ff7875;
+    }
+
+    &:disabled {
+      background-color: #d9d9d9;
+      cursor: not-allowed;
+    }
+  }
+
+  &-text {
+    border-color: var(--button-bg-color-danger);
+    background-color: transparent;
+    color: var(--button-text-color-link);
+
+    &:hover {
+      color: var(--button-text-color-link-hover);
+      background-color: rgb(231, 231, 231);
+    }
+
+    &:active {
+      background-color: rgb(231, 231, 231, 0.6);
+    }
+  }
+
+  &-link {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: var(--button-text-color-link);
+  }
+
+  &-large {
+    height: 38px;
+    font-size: 14px;
+  }
+
+  &-medium {
+    height: 26px;
+    font-size: 13px;
+  }
+
+  &-small {
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .icon {
+    // margin-right: 8px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    //border: 1px solid var(--border-color-spinner-secondary);
+    border-width: 1px;
+    border-style: solid;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
