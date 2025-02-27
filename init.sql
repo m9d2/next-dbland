@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS config (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  type TEXT NOT NULL,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL,
+  host TEXT NOT NULL,
+  port INTEGER NOT NULL,
+  database TEXT NOT NULL
+);

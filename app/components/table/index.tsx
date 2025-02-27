@@ -9,7 +9,6 @@ interface ColumnType {
 
 interface TableProps {
   columns: ColumnType[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataSource: Record<string, any>[];
 }
 

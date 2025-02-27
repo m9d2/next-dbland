@@ -119,6 +119,17 @@ export default function Home() {
       });
     });
   };
+  
+  const getConfig = () => {
+    fetch('/api/config', {
+      method: 'GET',
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.code === 0) {
+        }
+      });
+    })
+  }
 
   useEffect(() => {
     return () => {
@@ -132,6 +143,7 @@ export default function Home() {
         <button onClick={connect}>连接</button>
         <button onClick={query}>查询</button>
         <button onClick={disconnect}>断开连接</button>
+        <button onClick={getConfig}>获取config</button>
       </div>
     </Layout>
   );
