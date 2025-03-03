@@ -1,6 +1,7 @@
 import mysql, { Pool } from 'mysql2';
-import { QueryParams } from '../database';
+import { Database, QueryParams } from '../database';
 import BaseDriver, { DatabaseConfig } from './base';
+import { DatabaseType } from '@/api/type';
 
 export default class MySQL extends BaseDriver<Pool> {
 
@@ -41,6 +42,22 @@ export default class MySQL extends BaseDriver<Pool> {
         if (err) return reject(err);
         MySQL.instance = null;
         resolve('Connection pool closed.');
+      });
+    });
+  }
+  
+  getDatabase(): Promise<DatabaseType[]> {
+    return new Promise((resolve, reject) => {
+      this.pool.query('SHOW DATABASES', (err, results: mysql.RowDataPacket[]) => {
+        if (err) return reject(err);
+        
+        const databases: DatabaseType[] = results.map((db) => {
+          console.log(db)
+          return {
+            name: db.Database,
+          };
+        });
+        resolve(databases);
       });
     });
   }

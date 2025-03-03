@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, BaseWindow, ipcMain, Menu } = require('electron');
 const path = require('path');
 let mainWindow;
 
 /**
  * create main window
  */
+const baseUrl = `http://localhost:3000`;
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    // frame: false,
+    width: 908,
+    height: 675,
+    frame: false,
     // transparent: true,
     vibrancy: 'under-window',
-    // titleBarStyle: 'hidden',
+    titleBarStyle: 'hidden',
+    trafficLightPosition: { x: 10, y: 10 },
     // visualEffectState: "active",
     webPreferences: {
       nodeIntegration: false,
@@ -22,7 +24,7 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadURL('http://localhost:3000');
+  mainWindow.loadURL(baseUrl);
 
   // 打开开发者工具 (可选)
   mainWindow.webContents.openDevTools();
@@ -44,8 +46,25 @@ function createWindow() {
   });
 
   ipcMain.on('create-child-window', (event, url) => {
-    createChildWindow(url);
+    createChildWindow(baseUrl + '/' + url);
   });
+
+  ipcMain.on("open-context-menu", (event, menus) => {
+    // menus.map((item) => {
+    //   item.click = () => {
+    //     event.sender.send("context-menu-click", item.id)
+    //   }
+    // })
+    console.log(menus);
+    const menu = Menu.buildFromTemplate(menus);
+    menu.items.forEach(item => {
+      item.click = () => {
+        event.sender.send('context-menu-click', { id: item.id, label: item.label });
+      };
+    });
+    menu.popup({ window: mainWindow})
+  });
+
 }
 
 /**

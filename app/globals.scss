@@ -4,12 +4,13 @@
   --theme: light;
   --white: #ffffff;
   --font-size: 13px;
-  --color-primary: #0060b7;
-  --color-secondary: #1f7ac4;
+  --color-primary: #1677ff;
+  --color-secondary: #007be5;
   --color-danger: #ff4d4f;
   --color-bg-menu: #1A1A1A;
+  --color-font: #000000e5;
 
-  --color-border-primary: #f0f0f0;
+  --color-border-primary: #ccc;
   --color-border-secondary: #f0f0f0;
 
   --button-text-color-primary: #ffffff;
@@ -27,6 +28,11 @@
   --border-color-spinner-primary: #fff;
   --border-color-spinner-secondary: var(--color-secondary);
 
+  --color-input-bg: var(--white);
+  --color-input-border-selected: var(--color-primary);
+  --color-input-text: var(--color-font);
+  --color-input-text-placeholder: var(--color-font);
+  
   --color-bg-container-disabled: rgba(0, 0, 0, 0.04);
   --color-text-container-disabled: rgba(0, 0, 0, 0.25);
 
@@ -75,6 +81,7 @@
 html,
 body {
   height: 100%;
+  font-size: 13px;
 }
 
 a {
@@ -92,4 +99,14 @@ input {
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+select {
+  border: none; /* 移除边框 */
+  background: none; /* 移除背景 */
+  font-size: 16px;
+  padding: 5px;
+  appearance: none; /* 移除默认样式 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

@@ -1,14 +1,22 @@
 'use client';
-import { FiPlus } from 'react-icons/fi';
 import Button from '../button';
 import styles from './index.module.css';
 import Draggable from '../draggable';
-import { MessageProvider } from '@/hooks/MessageContext';
 import Space from '../space';
-import Connected from '../svg/Connected';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Database from '@/components/home/databse';
-import Dialog from '@/components/dialog';
+import ConnectedSvg from '@/components/svg/connected';
+import QuerySvg from '@/components/svg/query';
+import DownSvg from '@/components/svg/down';
+import ConsoleSvg from '@/components/svg/console';
+import useContextMenu from '@/hooks/useContextMenu';
+
+const menus = [
+  { id: '1', label: 'one' },
+  { id: '3', label: 'three' },
+  { id: '4', label: 'four' },
+  { id: '2', label: 'two' },
+];
 
 function Menu() {
   const onClick = () => {
@@ -21,10 +29,9 @@ function Menu() {
   };
 
   return (
-    <Space>
-      <Button onClick={onClick} type="link" icon={<Connected />}></Button>
-      <Button type="link" icon={<FiPlus />}></Button>
-      <Button type="link" icon={<FiPlus />}></Button>
+    <Space size={'medium'}>
+      <Button onClick={onClick} type="link" icon={<ConnectedSvg />}></Button>
+      <Button onClick={onClick} type="link" icon={<QuerySvg />}></Button>
     </Space>
   );
 }
@@ -34,123 +41,68 @@ function Layout({
                 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { openMenu, menuClickData } = useContextMenu();
+  const ConnectedAndDownSvg = () => {
+    return <>
+      <ConnectedSvg />
+      <DownSvg />
+    </>;
+  };
 
+  const onClick = () => {
+    openMenu(menus);
+  };
+
+  useEffect(() => {
+    console.log(menuClickData);
+  }, [menuClickData]);
+
+  useEffect(() => {
+    const moveWindow = (e: MouseEvent) => {
+      console.log(e)
+      window.electronAPI.drawWindow(e.movementX, e.movementY);
+    };
+
+    document.addEventListener('mousedown', () => {
+      document.addEventListener('mousemove', moveWindow);
+    });
+
+    document.addEventListener('mouseup', () => {
+      document.removeEventListener('mousemove', moveWindow);
+    });
+
+    return () => {
+      document.removeEventListener('mousedown', () => {});
+      document.removeEventListener('mousemove', moveWindow);
+      document.removeEventListener('mouseup', () => {});
+    };
+  }, []);
+  
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <Menu />
-      </header>
-      <main className={styles.main}>
-        <div className={`${styles.menuContainer}`}>
-          <Database></Database>
+      <div className={styles.tree}>
+        <Database></Database>
+      </div>
+      <Draggable minSize={100} bgColor="transparent"></Draggable>
+      <div className={styles.content}>
+        <div className={styles.menu}>
+          <Button icon={(<ConnectedAndDownSvg />)} type="link"
+                  onClick={onClick}>
+          </Button>
+          <Button icon={(<ConsoleSvg />)} type="link"></Button>
         </div>
-        <Draggable minSize={100} bgColor="transparent"></Draggable>
-        <div className={styles.content}>
-          <MessageProvider>{children}</MessageProvider>
+        <div className={styles.main}>
+          main
         </div>
-      </main>
-      <footer className={styles.footer}></footer>
+      </div>
     </div>
   );
 }
 
 export default function Index() {
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const connect = () => {
-    fetch('/api/connect', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cid: 1,
-      }),
-    }).then((res) => {
-      res.json().then((data) => {
-        if (data.code === 0) {
-        }
-      });
-    });
-  };
-
-  const query = () => {
-    fetch('/api/query', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cid: 1,
-      }),
-    }).then((res) => {
-      res.json().then((data) => {
-        if (data.code === 0) {
-        }
-      });
-    });
-  };
-
-  const disconnect = () => {
-    fetch('/api/disconnect', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cid: 1,
-      }),
-    }).then((res) => {
-      res.json().then((data) => {
-        if (data.code === 0) {
-        }
-      });
-    });
-  };
-
-  const getConfig = () => {
-    fetch('/api/config', {
-      method: 'GET',
-    }).then((res) => {
-      res.json().then((data) => {
-        if (data.code === 0) {
-        }
-      });
-    });
-  };
-
-  useEffect(() => {
-    return () => {
-      disconnect();
-    };
-  }, []);
-
-  const Content = () => {
-    return (
-      <div>
-        <h1>11</h1>
-        <h1>11</h1>
-        <h1>11</h1>
-        <h1>11</h1>
-        <h1>11</h1>
-      </div>
-    );
-  }
-    return (
-      <Layout>
-        <div>首页</div>
-        <div>
-          <button onClick={connect}>连接</button>
-          <button onClick={query}>查询</button>
-        <button onClick={disconnect}>断开连接</button>
-        <button onClick={getConfig}>获取config</button>
-        <button onClick={() => setDialogVisible(true)}>显示对话框</button>
-        <Dialog visible={dialogVisible} title={'test'}
-                content={<Content></Content>}
-                onCancel={() => setDialogVisible(false)} maskClosable={false}>
-
-      </Dialog>
-    </div>
-</Layout>
-)
-  ;
+  return (
+    <Layout>
+      <div>首页</div>
+    </Layout>
+  );
 }

@@ -6,8 +6,23 @@ contextBridge.exposeInMainWorld('electronAPI', {
     console.log('Received message:', message);
   },
 
+  dragWindow: (x, y) => {
+    ipcRenderer.send('drag-window', x, y);
+  },
+
   createChildWindow: (url) => {
     ipcRenderer.send('create-child-window', url);
+  },
+  openContextMenu: ( menus) => {
+    ipcRenderer.send('open-context-menu', menus);
+  },
+  onContextMenuClick: (callback) => {
+    ipcRenderer.on('context-menu-click', (event, data) => {
+      callback(data);
+    });
+  },
+  removeListener: (channel, callback) => {
+    ipcRenderer.removeListener(channel, callback);
   },
   enableWindowDragging: () => {
     const titleBar = document.getElementById('titleBar');

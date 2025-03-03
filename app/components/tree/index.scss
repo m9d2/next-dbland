@@ -27,6 +27,7 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
     &-selected {
       background-color: #1677ff;
       color: #fff;
+      border-radius: 4px;
     }
 
     &.dragging {
@@ -79,6 +80,9 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
       text-decoration: none;
       vertical-align: top;
       cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     span {
@@ -246,6 +250,7 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
   }
 
   &-title {
+    font-size: 13px;
     display: inline-block;
   }
 

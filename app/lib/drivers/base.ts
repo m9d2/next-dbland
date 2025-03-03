@@ -1,4 +1,5 @@
 import { Database, QueryParams } from "../database";
+import { DatabaseType } from '@/api/type';
 
 export interface DatabaseConfig {
     type: string;
@@ -29,6 +30,18 @@ export default abstract class BaseDriver<T> implements Database {
     }
     protected createPool(config: DatabaseConfig): T {
         throw new Error("Method not implemented.");
+    }
+
+    execute(params: QueryParams): Promise<any> {
+        return Promise.resolve(undefined);
+    }
+
+    getDatabase(): Promise<DatabaseType[]> {
+        return Promise.resolve(undefined);
+    }
+
+    getTables(): Promise<any> {
+        return Promise.resolve(undefined);
     }
 
 }
