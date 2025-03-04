@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "concurrently \"cd renderer && next dev\"",
+    "dev:electron": "concurrently \"cd electron && electron .\"",
+    "build:next": "concurrently \"cd renderer && next build\"",
+    "build:electron": "electron-builder",
+    "build": "npm run build:next && npm run build:electron",
     "start": "next start",
-    "lint": "next lint",
-    "electron": "electron electron.js",
-    "dev:full": "next dev & npm run electron"
+    "lint": "next lint"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.2.0",
@@ -33,11 +34,15 @@
     "@types/pg": "^8.11.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.1.2",
     "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
+    "node-gyp": "^11.1.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.5.0",
     "typescript": "^5"
   }

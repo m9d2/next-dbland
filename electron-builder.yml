@@ -1,0 +1,13 @@
+appId: cn.m9d2.dbland
+productName: DBLand
+directories:
+  output: dist
+files:
+  - "renderer/out/**/*"
+  - "electron/index.js"
+
+mac:
+  target: dmg
+
+win:
+  target: nsis

@@ -38,6 +38,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+renderer/next-env.d.ts
 
 /.idea/
+/dist/
+/venv/
+db.sqlite

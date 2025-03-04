@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import styles from './input.module.css';
 import Search from '@/components/svg/search';
 
-interface InputProps {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>{
   defaultValue?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPressEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
-export default function Input({ defaultValue, onChange, placeholder }: InputProps) {
+export default function Input({ defaultValue, onChange, placeholder, className, ...rest }: InputProps) {
   const [input, setInput] = useState('');
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e);
@@ -21,7 +21,7 @@ export default function Input({ defaultValue, onChange, placeholder }: InputProp
   }, [defaultValue]);
 
   return (
-    <div className={styles.inputWrapper}>
+    <div className={`${styles.inputWrapper} ${className}`} {...rest}>
       <span className={styles.inputIcon}>
         <Search />
       </span>

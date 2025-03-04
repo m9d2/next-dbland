@@ -3,19 +3,34 @@ import Button from '../button';
 import styles from './index.module.css';
 import Draggable from '../draggable';
 import Space from '../space';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Database from '@/components/home/databse';
 import ConnectedSvg from '@/components/svg/connected';
 import QuerySvg from '@/components/svg/query';
-import DownSvg from '@/components/svg/down';
 import ConsoleSvg from '@/components/svg/console';
-import useContextMenu from '@/hooks/useContextMenu';
+import Dropdown from '@/components/dropdown';
+import Input from '@/components/input';
 
 const menus = [
-  { id: '1', label: 'one' },
-  { id: '3', label: 'three' },
-  { id: '4', label: 'four' },
-  { id: '2', label: 'two' },
+  {
+    id: '1', label: '新建查询', onClick: () => {
+      console.log('one');
+    },
+  },
+  { type: 'separator' },
+  {
+    id: '2', label: '新建数据库连接', submenu: [
+      {
+        id: 'mysql', label: 'MySQL',
+      },
+      {
+        id: 'oracle', label: 'Oracle',
+      },
+      {
+        id: 'postgresql', label: 'PostgreSQL',
+      },
+    ],
+  },
 ];
 
 function Menu() {
@@ -41,58 +56,36 @@ function Layout({
                 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { openMenu, menuClickData } = useContextMenu();
   const ConnectedAndDownSvg = () => {
     return <>
       <ConnectedSvg />
-      <DownSvg />
     </>;
   };
 
-  const onClick = () => {
-    openMenu(menus);
+  const onMenuClick = () => {
+    window.electronAPI.getClickPosition().then((res: any) => {
+      console.log(res);
+    });
   };
-
-  useEffect(() => {
-    console.log(menuClickData);
-  }, [menuClickData]);
-
-  useEffect(() => {
-    const moveWindow = (e: MouseEvent) => {
-      console.log(e)
-      window.electronAPI.drawWindow(e.movementX, e.movementY);
-    };
-
-    document.addEventListener('mousedown', () => {
-      document.addEventListener('mousemove', moveWindow);
-    });
-
-    document.addEventListener('mouseup', () => {
-      document.removeEventListener('mousemove', moveWindow);
-    });
-
-    return () => {
-      document.removeEventListener('mousedown', () => {});
-      document.removeEventListener('mousemove', moveWindow);
-      document.removeEventListener('mouseup', () => {});
-    };
-  }, []);
-  
   return (
     <div className={styles.container}>
       <div className={styles.tree}>
+        <Input className={styles.input} placeholder={'搜索'}></Input>
         <Database></Database>
       </div>
       <Draggable minSize={100} bgColor="transparent"></Draggable>
       <div className={styles.content}>
-        <div className={styles.menu}>
-          <Button icon={(<ConnectedAndDownSvg />)} type="link"
-                  onClick={onClick}>
-          </Button>
-          <Button icon={(<ConsoleSvg />)} type="link"></Button>
+        <div className={styles.header}>
+          <div className={styles.menu}>
+            <Dropdown menus={menus}>
+              <Button title="New Connected" icon={(<ConnectedAndDownSvg />)} type="link"
+              >
+              </Button>
+            </Dropdown>
+            <Button title="Query Console" icon={(<ConsoleSvg />)} type="link"></Button>
+          </div>
         </div>
         <div className={styles.main}>
-          main
         </div>
       </div>
     </div>

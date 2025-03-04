@@ -14,12 +14,12 @@ const useContextMenu = () => {
     };
     // window.electronAPI.onContextMenuClick('context-menu-click', handleMenuClick);
     return () => {
-      window.electronAPI.removeListener('context-menu-click', handleMenuClick);
+      window.electronAPI.removeListener('context-menu-click');
     };
   }, []);
 
   const openMenu = (menus: { label: string, id: string }[]) => {
-    window.electronAPI.openContextMenu(menus);
+    // window.electronAPI.openContextMenu(menus);
   };
 
   return { openMenu, menuClickData };

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const { app, BrowserWindow, BaseWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, BaseWindow, ipcMain, Menu, screen } = require('electron');
 const path = require('path');
 let mainWindow;
 
@@ -7,27 +7,25 @@ let mainWindow;
  * create main window
  */
 const baseUrl = `http://localhost:3000`;
+
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 908,
-    height: 675,
+    width: 908, 
+    height: 675, 
     frame: false,
-    // transparent: true,
     vibrancy: 'under-window',
+    // remove the default titlebar
     titleBarStyle: 'hidden',
-    trafficLightPosition: { x: 10, y: 10 },
-    // visualEffectState: "active",
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false, contextIsolation: true, preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  mainWindow.loadURL(baseUrl);
+  mainWindow.loadURL(baseUrl).then(r => {
+  });
 
   // 打开开发者工具 (可选)
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -49,22 +47,20 @@ function createWindow() {
     createChildWindow(baseUrl + '/' + url);
   });
 
-  ipcMain.on("open-context-menu", (event, menus) => {
-    // menus.map((item) => {
-    //   item.click = () => {
-    //     event.sender.send("context-menu-click", item.id)
-    //   }
-    // })
-    console.log(menus);
+  ipcMain.handle('get-click-position', async (event) => {
+    return screen.getCursorScreenPoint();
+  });
+
+  ipcMain.on('open-context-menu', (event, menus, position) => {
+    const { x, y } = position;
     const menu = Menu.buildFromTemplate(menus);
     menu.items.forEach(item => {
       item.click = () => {
         event.sender.send('context-menu-click', { id: item.id, label: item.label });
       };
     });
-    menu.popup({ window: mainWindow})
+    menu.popup({ window: mainWindow, x, y });
   });
-
 }
 
 /**
@@ -79,8 +75,7 @@ function createChildWindow(url) {
     minimizable: false,
     resizable: false,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: true, contextIsolation: false,
     },
   });
 

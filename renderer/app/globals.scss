@@ -4,7 +4,7 @@
   --theme: light;
   --white: #ffffff;
   --font-size: 13px;
-  --color-primary: #1677ff;
+  --color-primary: #0061F2;
   --color-secondary: #007be5;
   --color-danger: #ff4d4f;
   --color-bg-menu: #1A1A1A;
@@ -28,7 +28,7 @@
   --border-color-spinner-primary: #fff;
   --border-color-spinner-secondary: var(--color-secondary);
 
-  --color-input-bg: var(--white);
+  --color-input-bg: rgba(0, 0, 0, 0.1);
   --color-input-border-selected: var(--color-primary);
   --color-input-text: var(--color-font);
   --color-input-text-placeholder: var(--color-font);
