@@ -10,22 +10,32 @@ const baseUrl = `http://localhost:3000`;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 908, 
-    height: 675, 
-    frame: false,
+    width: 908,
+    height: 675,
     vibrancy: 'under-window',
-    // remove the default titlebar
     titleBarStyle: 'hidden',
+    ...(process.platform === 'darwin' ?
+      {
+        titleBarStyle: 'hidden',
+        frame: false,
+      } :
+      {
+        titleBarOverlay: {
+          color: '#e9e7e7',
+          symbolColor: '#000',
+        }
+      }),
     webPreferences: {
       nodeIntegration: false, contextIsolation: true, preload: path.join(__dirname, 'preload.js'),
     },
   });
 
+  mainWindow.setMenu(null);
   mainWindow.loadURL(baseUrl).then(r => {
   });
 
   // 打开开发者工具 (可选)
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -41,6 +51,10 @@ function createWindow() {
 
   ipcMain.handle('get-current-window', (event) => {
     return BrowserWindow.fromWebContents(event.sender);
+  });
+
+  ipcMain.handle('get-platform', async () => {
+    return process.platform;
   });
 
   ipcMain.on('create-child-window', (event, url) => {

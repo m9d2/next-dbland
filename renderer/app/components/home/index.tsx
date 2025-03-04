@@ -2,7 +2,7 @@
 import Button from '../button';
 import styles from './index.module.css';
 import Draggable from '../draggable';
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Database from '@/components/home/databse';
 import ConnectedSvg from '@/components/svg/connected';
 import ConsoleSvg from '@/components/svg/console';
@@ -36,31 +36,43 @@ function Layout({
                 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [plaform, setPlatform] = useState<string>('');
   const ConnectedAndDownSvg = () => {
     return <>
       <ConnectedSvg />
     </>;
   };
 
+  useEffect(() => {
+    if (window.electronAPI) {
+      window.electronAPI.getPlatform().then((res) => {
+        setPlatform(res);
+      });
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
-      <div className={styles.tree}>
-        <Input className={styles.input} placeholder={'搜索'}></Input>
-        <Database></Database>
-      </div>
-      <Draggable minSize={100} bgColor="transparent"></Draggable>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <div className={styles.menu}>
-            <Dropdown menus={menus}>
-              <Button title="New Connected" icon={(<ConnectedAndDownSvg />)} type="link"
-              >
-              </Button>
-            </Dropdown>
-            <Button title="Query Console" icon={(<ConsoleSvg />)} type="link"></Button>
-          </div>
+      {plaform.startsWith('win') && <div className={styles.titleBar}></div>}
+      <div className={styles.main}>
+        <div className={styles.tree}>
+          <Input className={styles.input} placeholder={'搜索'}></Input>
+          <Database></Database>
         </div>
-        <div className={styles.main}>
+        <Draggable minSize={100} bgColor="transparent"></Draggable>
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <div className={styles.menu}>
+              <Dropdown menus={menus}>
+                <Button title="New Connected" icon={(<ConnectedAndDownSvg />)} type="link"
+                >
+                </Button>
+              </Dropdown>
+              <Button title="Query Console" icon={(<ConsoleSvg />)} type="link"></Button>
+            </div>
+          </div>
+          <div className={styles.workbench}>
+          </div>
         </div>
       </div>
     </div>

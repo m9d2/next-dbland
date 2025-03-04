@@ -25,4 +25,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getClickPosition: () => ipcRenderer.invoke('get-click-position'), removeListener: (channel, callback) => {
     ipcRenderer.removeListener(channel, callback);
   },
+  getPlatform: async () => ipcRenderer.invoke('get-platform'),
 });
