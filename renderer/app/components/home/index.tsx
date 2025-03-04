@@ -2,11 +2,9 @@
 import Button from '../button';
 import styles from './index.module.css';
 import Draggable from '../draggable';
-import Space from '../space';
 import React from 'react';
 import Database from '@/components/home/databse';
 import ConnectedSvg from '@/components/svg/connected';
-import QuerySvg from '@/components/svg/query';
 import ConsoleSvg from '@/components/svg/console';
 import Dropdown from '@/components/dropdown';
 import Input from '@/components/input';
@@ -33,24 +31,6 @@ const menus = [
   },
 ];
 
-function Menu() {
-  const onClick = () => {
-    console.log(window.electronAPI);
-    if (window.electronAPI) {
-      window.electronAPI.createChildWindow('https://www.baidu.com');
-    } else {
-      alert('打开窗');
-    }
-  };
-
-  return (
-    <Space size={'medium'}>
-      <Button onClick={onClick} type="link" icon={<ConnectedSvg />}></Button>
-      <Button onClick={onClick} type="link" icon={<QuerySvg />}></Button>
-    </Space>
-  );
-}
-
 function Layout({
                   children,
                 }: Readonly<{
@@ -62,11 +42,6 @@ function Layout({
     </>;
   };
 
-  const onMenuClick = () => {
-    window.electronAPI.getClickPosition().then((res: any) => {
-      console.log(res);
-    });
-  };
   return (
     <div className={styles.container}>
       <div className={styles.tree}>
