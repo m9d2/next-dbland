@@ -1,53 +1,144 @@
-import Tree from '@/components/tree';
 import React, { useEffect, useState } from 'react';
-import { DataNode } from 'rc-tree/lib/interface';
-import DatabaseSvg from '@/components/svg/database';
-import MySQLSvg from '@/components/svg/mysql';
+import { Tree, TreeDataNode } from 'antd';
 
-export default function Database() {
-  const [treeData, setTreeData] = useState<DataNode[]>();
-  const loadData = async (node: any) => {
+const { DirectoryTree } = Tree;
+
+
+interface DatabaseProps {
+  className?: string;
+}
+
+interface TreeNode extends TreeDataNode{
+  type?: string;
+  data?: any;
+}
+
+
+export default function Database({ className }: DatabaseProps) {
+  const [treeData, setTreeData] = useState<TreeNode[]>();
+
+  const getConfigs = async () => {
+    const res = await fetch('api/config');
+    return await res.json();
+  };
+
+  const getDatabase = async (cid: number) => {
     const res = await fetch('api/database', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        cid: node.id,
+        cid: cid,
       }),
     });
+    return await res.json();
+  };
 
-    const data = await res.json();
+  const getTables = async (cid: number, db: string) => {
+    const body = {
+      cid: cid,
+      database: db,
+    };
+    console.log(body);
+    const res = await fetch('api/table', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    return await res.json();
+  };
+
+  function updateTreeData(node: TreeNode) {
+    // 递归更新树结构
     setTreeData((prevTreeData) => {
       return prevTreeData?.map((item) => {
         if (item.key === node.key) {
           return {
             ...item,
-            children: data.map((item: any) => ({
-              title: item.name,
-              key: item.name,
-              children: [],
-              icon: <DatabaseSvg />,
-            })),
+            children: node.children,
           };
         }
+
+        // 如果有子节点，则递归更新子节点
+        if (item.children) {
+          return {
+            ...item,
+            children: updateTreeDataRecursive(item.children, node),
+          };
+        }
+
         return item;
       });
     });
-  };
+  }
 
+  function updateTreeDataRecursive(children: TreeNode[], node: TreeNode): TreeNode[] {
+    return children.map((child) => {
+      if (child.key === node.key) {
+        return {
+          ...child,
+          children: node.children,
+        };
+      }
+
+      if (child.children) {
+        return {
+          ...child,
+          children: updateTreeDataRecursive(child.children, node),
+        };
+      }
+
+      return child;
+    });
+  }
+
+  const onDoubleClick = async (node: TreeNode) => {
+    if (node.type === 'config') {
+      const databases = await getDatabase(node.data.id);
+      node.children = databases.map((db: any) => {
+        return {
+          title: db.name,
+          type: 'database',
+          data: db,
+          key: `${node.data}-${db.name}`,
+        };
+      });
+    }
+    if (node.type === 'database') {
+      const tables = await getTables(node.data.cid, node.data.name);
+      node.children = tables.map((table: any) => {
+        return {
+          title: table.name,
+          type: 'table',
+          data: table,
+          key: `${node.data}-${table.name}`,
+        };
+      });
+    }
+    updateTreeData(node)
+  };
+  
   useEffect(() => {
-    fetch('api/config')
-      .then((response) => response.json())
+    getConfigs()
       .then((data) => {
         data.map((item: any) => {
           item.title = item.host;
           item.key = item.id;
           item.children = [];
-          item.icon = <MySQLSvg />;
+          item.label = item.host;
+          item.data = item;
+          item.type = 'config';
         });
         setTreeData(data);
       });
   }, []);
-  return <Tree treeData={treeData} loadData={loadData}></Tree>;
+  return (
+    <DirectoryTree
+      loadData={onDoubleClick}
+      treeData={treeData}
+    />
+  );
 }

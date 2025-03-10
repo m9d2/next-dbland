@@ -3,18 +3,16 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
 
 .#{$treePrefixCls} {
   margin: 0;
-
   &-focused:not(&-active-focused) {
     border-color: cyan;
   }
 
   .#{$treeNodePrefixCls} {
-    margin: 0;
-    padding: 0;
     line-height: 24px;
-    white-space: nowrap;
     list-style: none;
+    margin-inline: 20px;
     outline: 0;
+    display: flex;
 
     .draggable {
       color: #333;
@@ -62,6 +60,9 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
       > .#{$treePrefixCls}-node-content-wrapper {
         color: #a60000 !important;
         font-weight: bold !important;
+        //white-space: nowrap;
+        //text-overflow: ellipsis;
+
       }
     }
 
@@ -72,17 +73,16 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
 
     .#{$treePrefixCls}-node-content-wrapper {
       position: relative;
-      display: inline-block;
+      //display: inline-block;
       height: 24px;
       margin: 0;
       padding: 0;
-      width: calc(100% - 24px);
       text-decoration: none;
       vertical-align: top;
       cursor: pointer;
-      white-space: nowrap;
+      width: inherit;
+      display: flex;
       overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     span {
@@ -90,18 +90,20 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
       &.#{$treePrefixCls}-switcher,
       &.#{$treePrefixCls}-checkbox,
       &.#{$treePrefixCls}-iconEle {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
+        //display: inline-block;
+        width: 24px;
+        height: 24px;
         margin-right: 2px;
-        line-height: 16px;
-        vertical-align: -0.125em;
         background-color: transparent;
         background-repeat: no-repeat;
         background-attachment: scroll;
         border: 0 none;
         outline: none;
+        flex-shrink: 0;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &.#{$treePrefixCls}-icon__customize {
           background-image: none;
@@ -251,11 +253,15 @@ $treeNodePrefixCls: '#{$treePrefixCls}-treenode';
 
   &-title {
     font-size: 13px;
-    display: inline-block;
+    //display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &-indent {
-    display: inline-block;
+    //display: inline-block;
+    flex-shrink: 0;
     height: 0;
     vertical-align: bottom;
   }

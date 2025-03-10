@@ -40,7 +40,7 @@ export default abstract class BaseDriver<T> implements Database {
         return Promise.resolve(undefined);
     }
 
-    getTables(): Promise<any> {
+    getTables(database: string): Promise<any> {
         return Promise.resolve(undefined);
     }
 

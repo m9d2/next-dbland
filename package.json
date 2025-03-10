@@ -12,15 +12,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.2.0",
-    "@types/styled-components": "^5.1.34",
-    "antd": "^5.24.1",
+    "antd": "^5.24.3",
     "classnames": "^2.5.1",
     "express": "^4.21.2",
     "mysql2": "^3.12.0",
     "next": "15.1.5",
     "pg": "^8.13.3",
-    "rc-tree": "^5.13.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",

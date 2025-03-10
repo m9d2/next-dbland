@@ -25,16 +25,29 @@
 }
 
 .tree {
-    /*background-color: rgba(231, 231, 230, 0.95);*/
     font-size: 12px;
-    padding: 30px 20px;
     width: 230px;
     flex-shrink: 0;
     border-right: 1px solid var(--color-border-primary);
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    
+    .treeContent {
+        margin: 30px 20px;
 
-    .input {
-        margin-bottom: 20px;
+        .input {
+            margin-bottom: 20px;
+            margin-top: 30px;
+            margin-inline: 20px;
+        }
+
+        .database {
+            /*height: 400px;*/
+            margin-bottom: 20px;
+        }
     }
+    
 }
 
 .content {
@@ -45,7 +58,7 @@
     user-select: none;
     app-region: drag;
     height: 50px;
-    background-color: #fff;
+    background-color: #FBFCFE;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
     font-weight: 600;
@@ -54,7 +67,7 @@
     justify-content: flex-end;
     padding: 0 8px;
     color: rgb(113, 113, 113);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    /*box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);*/
 
     .menu {
         app-region: no-drag;
@@ -101,4 +114,8 @@
     background-color: rgba(231, 231, 230, 0.9);
     height: 30px;
     width: 100%;
+}
+
+.MuiInput-root {
+    background-color: var(--color-input-bg);
 }

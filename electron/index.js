@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const { app, BrowserWindow, BaseWindow, ipcMain, Menu, screen } = require('electron');
+const { app, BrowserWindow, BaseWindow, ipcMain, Menu, screen, nativeImage } = require('electron');
 const path = require('path');
 let mainWindow;
 
@@ -66,14 +66,18 @@ function createWindow() {
   });
 
   ipcMain.on('open-context-menu', (event, menus, position) => {
-    const { x, y } = position;
+    menus.forEach(item => {
+      // item.icon = nativeImage.createFromPath('/Users/gaoyang/Workspace/web/next-dbland/electron/1.png');
+    })
+
+    console.log(menus);
     const menu = Menu.buildFromTemplate(menus);
     menu.items.forEach(item => {
       item.click = () => {
         event.sender.send('context-menu-click', { id: item.id, label: item.label });
       };
     });
-    menu.popup({ window: mainWindow, x, y });
+    menu.popup({ window: mainWindow, ...(position || {} )});
   });
 }
 

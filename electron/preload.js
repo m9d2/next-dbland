@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('create-child-window', url);
   },
   openContextMenu: (menus, position) => {
+    console.log('openContextMenu', menus, position);
     ipcRenderer.send('open-context-menu', menus, position);
   },
   onContextMenuClick: (callback) => {

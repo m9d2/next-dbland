@@ -8,7 +8,7 @@ export interface DatabaseType {
     name: string
 }
 
-export interface Table {
+export interface TableType {
     name: string
 }
 

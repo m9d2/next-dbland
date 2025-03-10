@@ -11,7 +11,7 @@ export interface Database {
   
   getDatabase(): Promise<DatabaseType[]>;
   
-  getTables(): Promise<any>;
+  getTables(database: string): Promise<any>;
 
   query(params: QueryParams): Promise<any>;
 

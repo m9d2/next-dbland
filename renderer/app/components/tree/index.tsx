@@ -1,42 +1,31 @@
 import './index.scss';
-import React from 'react';
-import type { BasicDataNode, TreeProps as RcTreeProps } from 'rc-tree';
-import RcTree from 'rc-tree';
-import { CgChevronDown, CgChevronRight } from 'react-icons/cg';
-import { DataNode } from 'rc-tree/lib/interface';
+import React, { useState } from 'react';
+import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 
-export interface TreeNodeProps {
-  key?: string;
-  title?: string | React.ReactNode;
-  icon?: React.ReactNode | ((props: TreeNodeProps) => React.ReactNode);
-  expanded?: boolean;
-  children?: React.ReactNode;
-  className?: string;
+
+interface TreeNode {
+  id: string;
+  name: string;
+  children?: TreeNode[];
 }
 
-export interface TreeNode extends React.Component<TreeNodeProps> {}
 
-export interface TreeProps<T extends BasicDataNode = DataNode>
-  extends Omit<
-    RcTreeProps<T>,
-    'prefixCls' | 'showLine' | 'direction' | 'draggable' | 'icon' | 'switcherIcon'
-  > {}
-
-const renderSwitcherIcon = (props: any) => {
-  return props.expanded ? <CgChevronDown /> : <CgChevronRight />;
-};
+export interface TreeProps {
+}
 
 export default function Tree(props: TreeProps) {
+  const [treeData, setTreeData] = useState<TreeNode[]>([]);
+  
+  const renderTree = (nodes: TreeNode[]) =>
+    nodes.map((node) => (
+      <TreeItem key={node.id} label={node.name} itemId={node.id}>
+        {node.children && renderTree(node.children)}
+      </TreeItem>
+    ));
+
   return (
-    <RcTree
-      onClick={(e, node) => {
-        console.log(e, node);
-      }}
-      prefixCls="tree"
-      switcherIcon={renderSwitcherIcon}
-      {...props}
-    >
-      {props.children}
-    </RcTree>
+    <SimpleTreeView expansionTrigger="iconContainer">
+      {renderTree(treeData)}
+    </SimpleTreeView>
   );
 }

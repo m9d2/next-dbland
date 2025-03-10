@@ -1,7 +1,8 @@
-import type { Metadata } from 'next';
-import './globals.scss';
+import './globals.css';
 import './reset.css';
+import './theme.scss';
 import React from 'react';
+import { theme } from './theme';
 
 // export const metadata: Metadata = {
 //   title: 'DBLand',
@@ -9,13 +10,17 @@ import React from 'react';
 // };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+    <body>
+    {/*<CssVarsProvider theme={theme}>*/}
+      {children}
+    {/*</CssVarsProvider>*/}
+    </body>
     </html>
   );
 }

@@ -1,17 +1,19 @@
 'use client';
-import Button from '../button';
 import styles from './index.module.css';
 import Draggable from '../draggable';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Database from '@/components/home/databse';
 import ConnectedSvg from '@/components/svg/connected';
 import ConsoleSvg from '@/components/svg/console';
 import Dropdown from '@/components/dropdown';
-import Input from '@/components/input';
+import { Button, Input, Space, TreeDataNode } from 'antd';
+import Search from '@/components/svg/search';
+import { Tabs } from '@/components/tabs';
+import { TabsProps } from '@/components/tabs/Tabs';
 
 const menus = [
   {
-    id: '1', label: '新建查询', onClick: () => {
+    id: '1', label: '新建查询', accelerator: 'CmdOrCtrl+O', onClick: () => {
       console.log('one');
     },
   },
@@ -31,12 +33,31 @@ const menus = [
   },
 ];
 
+const items = [
+  {
+    id: '1',
+    title: 'test1test1test1test1',
+    content: <div>test1</div>,
+  },
+  {
+    id: '2',
+    title: 'test2test1test1test1',
+    content: <div>test2</div>,
+  },
+  {
+    id: '3',
+    title: 'test3',
+    content: <div>test3</div>,
+  },
+];
+
+
 function Layout({
                   children,
                 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [plaform, setPlatform] = useState<string>('');
+  const [platform, setPlatform] = useState<string>('');
   const ConnectedAndDownSvg = () => {
     return <>
       <ConnectedSvg />
@@ -44,34 +65,52 @@ function Layout({
   };
 
   useEffect(() => {
-    if (window.electronAPI) {
+    if (typeof window !== 'undefined' && window.electronAPI) {
       window.electronAPI.getPlatform().then((res) => {
         setPlatform(res);
       });
     }
   }, []);
 
+  const newMenus = menus.map(({ onClick, ...menuItem }) => {
+    return {
+      ...menuItem,
+    };
+  });
+
+  const onContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== 'undefined' && window.electronAPI) {
+      window.electronAPI.openContextMenu(newMenus);
+    }
+  };
+
   return (
     <div className={styles.container}>
-      {plaform.startsWith('win') && <div className={styles.titleBar}></div>}
+      {platform.startsWith('win') && <div className={styles.titleBar}></div>}
       <div className={styles.main}>
-        <div className={styles.tree}>
-          <Input className={styles.input} placeholder={'搜索'}></Input>
-          <Database></Database>
+        <div className={styles.tree} onContextMenu={onContextMenu}>
+          <Space className={styles.treeContent} direction="vertical" size="middle">
+            <Input style={{ backgroundColor: 'var(--color-input-bg)' }} prefix={<Search />} placeholder="请输入" />
+            <Database className={styles.database}></Database>
+          </Space>
         </div>
         <Draggable minSize={100} bgColor="transparent"></Draggable>
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.menu}>
               <Dropdown menus={menus}>
-                <Button title="New Connected" icon={(<ConnectedAndDownSvg />)} type="link"
-                >
+                <Button size={'small'} type="text" title="New Connected">
+                  <ConnectedAndDownSvg />
                 </Button>
               </Dropdown>
-              <Button title="Query Console" icon={(<ConsoleSvg />)} type="link"></Button>
+              <Button size={'small'} type="text" title="Query Console">
+                <ConsoleSvg />
+              </Button>
             </div>
           </div>
           <div className={styles.workbench}>
+            {children}
           </div>
         </div>
       </div>
@@ -79,10 +118,28 @@ function Layout({
   );
 }
 
+const tabs: TabsProps['items'] = [
+  {
+    key: '1',
+    label: 'Tab 1',
+    children: 'Content of Tab Pane 1',
+  },
+  {
+    key: '2',
+    label: 'Tab 2',
+    children: 'Content of Tab Pane 2',
+  },
+  {
+    key: '3',
+    label: 'Tab 3',
+    children: 'Content of Tab Pane 3',
+  },
+];
+
 export default function Index() {
   return (
     <Layout>
-      <div>首页</div>
+      <Tabs type="editable-card" size={'small'} items={tabs}/>
     </Layout>
   );
 }
