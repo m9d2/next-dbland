@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 import styles from './index.module.scss';
+import usePlatform, { PlatformType } from '@/hooks/usePlatform';
+import { Dropdown as ADropdown, MenuProps, Space } from 'antd';
 
 interface DropdownProps {
   menus: any[];
@@ -11,9 +13,10 @@ const Dropdown: FC<DropdownProps> = ({
                                        children,
                                      }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+  const platform = usePlatform()
 
   const onClick = () => {
+    console.log('dropdownRef', dropdownRef.current);
     if (!dropdownRef.current) return;
     const rect = dropdownRef.current.getBoundingClientRect();
     const position = {
@@ -46,13 +49,18 @@ const Dropdown: FC<DropdownProps> = ({
       }
     };
   }, []);
-
-
-  return (
-    <div ref={dropdownRef} className={styles.dropdown} onClick={onClick}>
+  
+  if (PlatformType.web === platform) {
+    return <ADropdown menu={{ items: menus }} trigger={['click']}>
       {children}
-    </div>
-  );
+    </ADropdown>
+  } else {
+    return (
+      <div ref={dropdownRef} className={styles.dropdown} onClick={onClick}>
+        {children}
+      </div>
+    );
+  }
 };
 
 export default Dropdown;

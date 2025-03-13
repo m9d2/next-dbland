@@ -5,6 +5,7 @@ import { TabsProps as ATabsProps } from 'antd/es/tabs';
 export interface TabsProps extends ATabsProps {
 }
 
+
 export const Tabs: React.FC<TabsProps> = forwardRef(function Tabs(
   props,
 ) {

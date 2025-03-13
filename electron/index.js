@@ -13,7 +13,6 @@ function createWindow() {
     width: 908,
     height: 675,
     vibrancy: 'under-window',
-    titleBarStyle: 'hidden',
     ...(process.platform === 'darwin' ?
       {
         titleBarStyle: 'hidden',
@@ -35,7 +34,7 @@ function createWindow() {
   });
 
   // 打开开发者工具 (可选)
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

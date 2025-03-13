@@ -2,7 +2,7 @@ import './globals.css';
 import './reset.css';
 import './theme.scss';
 import React from 'react';
-import { theme } from './theme';
+import { ConfigProvider } from 'antd';
 
 // export const metadata: Metadata = {
 //   title: 'DBLand',
@@ -17,9 +17,23 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body>
-    {/*<CssVarsProvider theme={theme}>*/}
+    <ConfigProvider
+      theme={{
+        components: {
+          Tabs: {
+          },
+          Table: {
+            headerBg: '#fafafa',
+            headerBorderRadius: 0,
+          },
+          Tree: {
+            indentSize: 12,
+          },
+        },
+      }}
+    >
       {children}
-    {/*</CssVarsProvider>*/}
+    </ConfigProvider>
     </body>
     </html>
   );

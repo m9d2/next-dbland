@@ -21,101 +21,111 @@
         flex-direction: row;
         width: 100%;
         height: 100%;
-    }
-}
-
-.tree {
-    font-size: 12px;
-    width: 230px;
-    flex-shrink: 0;
-    border-right: 1px solid var(--color-border-primary);
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    
-    .treeContent {
-        margin: 30px 20px;
-
-        .input {
-            margin-bottom: 20px;
-            margin-top: 30px;
-            margin-inline: 20px;
-        }
+        overflow: hidden;
 
         .database {
-            /*height: 400px;*/
-            margin-bottom: 20px;
+            font-size: 12px;
+            width: 230px;
+            flex-shrink: 0;
+            border-right: 1px solid var(--color-border-primary);
+            display: flex;
+            flex-direction: column;
+            /*overflow-y: scroll;*/
+
+            .inputWrapper {
+                margin-top: 30px;
+                padding: 0 20px;
+
+                .input {
+                    background-color: var(--color-input-bg);
+                }
+            }
+
+            .tree {
+                margin: 20px 0;
+                padding-inline: 20px;
+                overflow-y: scroll;
+                background-color: transparent;
+            }
+        }
+
+        .content {
+            background-color: #fff;
+            flex-grow: 1;
+            overflow: hidden;
+
+            .header {
+                user-select: none;
+                app-region: drag;
+                height: 50px;
+                background-color: #FBFCFE;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                width: 100%;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 0 8px;
+                color: rgb(113, 113, 113);
+                /*box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);*/
+
+                .menu {
+                    app-region: no-drag;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            .workbench {
+                display: flex;
+                font-size: 13px;
+                flex-direction: column;
+                
+                .console {
+                    display: flex;
+                    flex-direction: column;
+                    
+                    .consoleHeader {
+                        margin-left: 20px;
+                        margin-bottom: 20px;
+                    }
+                    
+                    .monacoEditor {
+                        
+                    }
+                    
+                    .tableWrapper {
+                        overflow: auto;
+
+                        .tableMenu {
+                            height: 30px;
+                            background-color: #ccc;
+                        }
+
+                        .tableContent {
+                            flex-grow: 1;
+                            overflow: auto;
+                        }
+                        .tableFooter {
+                            height: 30px;
+                            background-color: #1f7ac4;
+                        }
+                    }
+                }
+            }
+
         }
     }
-    
-}
 
-.content {
-    flex-grow: 1;
-}
-
-.header {
-    user-select: none;
-    app-region: drag;
-    height: 50px;
-    background-color: #FBFCFE;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    width: 100%;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 8px;
-    color: rgb(113, 113, 113);
-    /*box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);*/
-
-    .menu {
-        app-region: no-drag;
-        display: flex;
-        align-items: center;
+    .footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        background-color: rgba(231, 231, 230, 0.9);
+        height: 30px;
+        width: 100%;
     }
 }
 
 
-.workbench {
-    display: flex;
-    flex-grow: 1;
-    font-size: 13px;
-}
 
-.menuContainer {
-    width: 200px;
-    height: 100%;
-    border-right: 1px solid rgba(5, 5, 5, 0.1);
-    flex-shrink: 0;
-    background-color: rgb(233, 231, 231, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: background-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
 
-.content {
-    width: 100%;
-    background-color: #fff;
-}
 
-.menuItem {
-    color: #000;
-    text-align: center;
-    padding: 8px 0;
-}
-
-.active {
-    color: dodgerblue;
-}
-
-.footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: rgba(231, 231, 230, 0.9);
-    height: 30px;
-    width: 100%;
-}
-
-.MuiInput-root {
-    background-color: var(--color-input-bg);
-}
