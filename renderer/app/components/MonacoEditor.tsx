@@ -15,7 +15,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ value, language, onChange, 
   const [editorInstance, setEditorInstance] = useState<any>(null);
 
   useEffect(() => {
-    console.log('MonacoEditor useEffect', editorContainer.current, !editorInstance);
+    console.log('MonacoEditor useEffect', !editorInstance);
     if (editorContainer.current && !editorInstance) {
       const editor = monaco.editor.create(editorContainer.current, {
         value,
@@ -33,11 +33,11 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ value, language, onChange, 
       });
 
       setEditorInstance(editor);
-
-      return () => {
-        editor.dispose();
-      };
     }
+
+    return () => {
+      editorInstance?.dispose();
+    };
   }, [editorInstance, value, language, onChange]);
 
   useEffect(() => {

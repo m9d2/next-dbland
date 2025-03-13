@@ -9,10 +9,10 @@ import ConnectedSvg from '@/components/svg/connected';
 import ConsoleSvg from '@/components/svg/console';
 import RunSvg from '@/components/svg/run';
 import StopSvg from '@/components/svg/Stop';
-import MonacoEditor from '@/components/MonacoEditor';
 import Draggable from '@/components/draggable';
 import { query } from '@/tools/api';
 import { useTreeStore } from '@/store/useTreeStore';
+import MonacoEditor from 'react-monaco-editor/lib/editor';
 
 const { DirectoryTree } = Tree;
 
@@ -92,6 +92,11 @@ function ConsoleSection() {
             ellipsis: true,
           }));
           setColumns(columns);
+          // datasource item 设置key
+          res.forEach((item) => {
+            item.key = item.ID;
+          });
+          console.log(item);
           setDataSource(res);
           setLoading(false);
         }
@@ -99,6 +104,18 @@ function ConsoleSection() {
     });
   };
 
+  const monacoOptions = {
+    selectOnLineNumbers: true,
+    roundedSelection: true,
+    readOnly: false,
+    automaticLayout: true,
+    fontSize: 13,
+    language: 'sql',
+    minimap: {
+      enabled: false,
+    },
+  }
+  
   return (
     <div className={styles.console}>
       <Space className={styles.consoleHeader}>
@@ -118,14 +135,16 @@ function ConsoleSection() {
       <MonacoEditor
         className={styles.monacoEditor}
         value={editorValue}
-        language="sql"
+        height="150"
+        theme='vs-light'
+        options={monacoOptions}
         onChange={handleEditorChange}
       />
       <Draggable minSize={100} bgColor="transparent" direction={'column'} />
       <div className={styles.tableWrapper}>
         <div className={styles.tableMenu}></div>
-        {datasource && <Table loading={loading} scroll={{ y: 400 }} className={styles.tableContent} pagination={false} size="small"
-                              dataSource={datasource} columns={columns} />}
+        {datasource.length > 0 ? <Table bordered loading={loading} scroll={{ y: 300 }} className={styles.tableContent} pagination={false} size="small"
+                              dataSource={datasource} columns={columns} /> : <div className={styles.noTable}>暂无数据</div>}
         <div className={styles.tableFooter}></div>
       </div>
     </div>

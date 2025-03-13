@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    height: 100%;
+    height: 100vh;
     width: 100%;
     user-select: none;
     flex-direction: column;
@@ -9,7 +9,6 @@
 
     .titleBar {
         width: 100%;
-        flex-shrink: 0;
         height: 33px;
         app-region: drag;
         background-color: #e9e7e7;
@@ -18,7 +17,6 @@
     .main {
         flex-grow: 1;
         display: flex;
-        flex-direction: row;
         width: 100%;
         height: 100%;
         overflow: hidden;
@@ -30,7 +28,7 @@
             border-right: 1px solid var(--color-border-primary);
             display: flex;
             flex-direction: column;
-            /*overflow-y: scroll;*/
+            padding: 20px 0;
 
             .inputWrapper {
                 margin-top: 30px;
@@ -42,7 +40,7 @@
             }
 
             .tree {
-                margin: 20px 0;
+                margin-top: 20px;
                 padding-inline: 20px;
                 overflow-y: scroll;
                 background-color: transparent;
@@ -50,9 +48,11 @@
         }
 
         .content {
-            background-color: #fff;
             flex-grow: 1;
+            background-color: #fff;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
 
             .header {
                 user-select: none;
@@ -60,72 +60,69 @@
                 height: 50px;
                 background-color: #FBFCFE;
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                width: 100%;
-                font-weight: 600;
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
                 padding: 0 8px;
                 color: rgb(113, 113, 113);
-                /*box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);*/
-
-                .menu {
-                    app-region: no-drag;
-                    display: flex;
-                    align-items: center;
-                }
+                font-weight: 600;
+                flex-shrink: 0;
             }
 
             .workbench {
+                flex-grow: 1;
                 display: flex;
-                font-size: 13px;
                 flex-direction: column;
-                
+                font-size: 13px;
+                height: 100%;
+
                 .console {
                     display: flex;
                     flex-direction: column;
-                    
+                    height: 100%;
+
                     .consoleHeader {
-                        margin-left: 20px;
                         margin-bottom: 20px;
+                        margin-inline: 20px;
                     }
-                    
+
                     .monacoEditor {
-                        
+                        height: 300px;
                     }
-                    
+
                     .tableWrapper {
+                        flex-grow: 1;
+                        display: flex;
+                        flex-direction: column;
                         overflow: auto;
 
                         .tableMenu {
+                            width: 100%;
                             height: 30px;
                             background-color: #ccc;
+                        }
+
+                        .tableFooter {
+                            width: 100%;
+                            height: 30px;
+                            background-color: var(--color-input-bg);
+                            flex-shrink: 0;
                         }
 
                         .tableContent {
                             flex-grow: 1;
                             overflow: auto;
                         }
-                        .tableFooter {
-                            height: 30px;
-                            background-color: #1f7ac4;
+
+                        .noTable {
+                            flex-grow: 1;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                         }
                     }
                 }
             }
-
         }
     }
-
-    .footer {
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        background-color: rgba(231, 231, 230, 0.9);
-        height: 30px;
-        width: 100%;
-    }
 }
-
-
-
-
-
