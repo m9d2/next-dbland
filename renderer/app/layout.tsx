@@ -21,10 +21,15 @@ export default function RootLayout({
       theme={{
         components: {
           Tabs: {
+            horizontalMargin: '0 0 0 0'
           },
           Table: {
             headerBg: '#fafafa',
             headerBorderRadius: 0,
+            cellFontSizeSM: 13,
+          },
+          Button: {
+            
           },
           Tree: {
             indentSize: 12,

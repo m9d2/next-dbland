@@ -10,17 +10,19 @@ import ConsoleSvg from '@/components/svg/console';
 import RunSvg from '@/components/svg/run';
 import StopSvg from '@/components/svg/Stop';
 import Draggable from '@/components/draggable';
-import { query, getDatabase } from '@/tools/api';
+import { getDatabase, query } from '@/tools/api';
 import { useTreeStore } from '@/store/useTreeStore';
 import MonacoEditor from 'react-monaco-editor/lib/editor';
 import {
-  LeftOutlined, PlusOutlined,
+  LeftOutlined,
+  PlusOutlined,
   ReloadOutlined,
   RightOutlined,
   VerticalLeftOutlined,
   VerticalRightOutlined,
 } from '@ant-design/icons';
 import { userConfigStore } from '@/store/useConfigStore';
+import FormatSvg from '@/components/svg/Format';
 
 const { DirectoryTree } = Tree;
 
@@ -81,8 +83,8 @@ function ConsoleSection() {
   const [columns, setColumns] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tableHeight, setTableHeight] = useState(0);
-  const {configs} = userConfigStore()
-  const [databases, setDatabases] = useState<any[]>([])
+  const { configs } = userConfigStore();
+  const [databases, setDatabases] = useState<any[]>([]);
   const [selectedConfig, setSelectedConfig] = useState<any>(null);
   const [selectedDatabase, setSelectedDatabase] = useState<any>(null);
   const handleEditorChange = (newValue: string) => {
@@ -128,22 +130,27 @@ function ConsoleSection() {
       enabled: false,
     },
   };
-  
+
   useEffect(() => {
-    setEditorValue(`select * from SYS_TEMPLATE;`)
+    setEditorValue(`select * from SYS_TEMPLATE;`);
   }, [selectedNode]);
-  
+
   const onSelectConfig = async (item: any) => {
-    const res = await getDatabase(item)
-    setDatabases(res)
-    setSelectedConfig(item)
-  }
+    const res = await getDatabase(item);
+    setDatabases(res);
+    setSelectedConfig(item);
+  };
+
+  const onSelectDatabase = async (item: any) => {
+    setSelectedDatabase(item);
+    await query(selectedConfig, item, `use ${item}`);
+  };
 
   return (
     <div className={styles.console}>
-      <Space className={styles.consoleHeader}>
+      <Space className={styles.consoleHeader} size="middle">
         <Select
-          style={{width: 120}}
+          style={{ width: 120 }}
           size="small"
           placeholder="选择实例"
           options={configs.map((item) => ({
@@ -153,17 +160,20 @@ function ConsoleSection() {
           onSelect={onSelectConfig}
         />
         <Select
-          style={{width: 120}}
+          style={{ width: 120 }}
           size="small"
           placeholder="选择数据库"
           options={databases.map((item) => ({
             value: item.name,
             label: item.name,
           }))}
-          onSelect={(value) => setSelectedDatabase(value)}
+          onSelect={onSelectDatabase}
         />
-        <Button title="运行" type="link" icon={<RunSvg />} onClick={querySql} />
-        <Button title="停止" type="link" icon={<StopSvg />} />
+        <div>
+          <Button size='small' className={styles.runBtn} title="运行" type="link" icon={<RunSvg />} onClick={querySql}></Button>
+          <Button size='small' className={styles.stopBtn} title="停止" type="link" icon={<StopSvg />} />
+          <Button size='small' className={styles.formatBtn} title="格式化" type="link" icon={<FormatSvg />} />
+        </div>
       </Space>
       <MonacoEditor
         className={styles.monacoEditor}
@@ -176,13 +186,13 @@ function ConsoleSection() {
       <Draggable minSize={100} bgColor="transparent" direction={'column'} />
       <div className={styles.tableWrapper} ref={(ref) => setTableHeight(ref?.clientHeight - 60)}>
         <div className={styles.tableMenu}>
-          <Button size='small' type="text" icon={<VerticalRightOutlined />}></Button>
-          <Button size='small' type="text" icon={<LeftOutlined />}></Button>
-          <Button size='small' type="text" icon={<RightOutlined />}></Button>
-          <Button size='small' type="text" icon={<VerticalLeftOutlined />}></Button>
-          <Divider type='vertical'/>
-          <Button size='small' type="text" icon={<ReloadOutlined />}></Button>
-          <Button size='small' type="text" icon={<PlusOutlined />}></Button>
+          <Button size="small" type="text" icon={<VerticalRightOutlined />}></Button>
+          <Button size="small" type="text" icon={<LeftOutlined />}></Button>
+          <Button size="small" type="text" icon={<RightOutlined />}></Button>
+          <Button size="small" type="text" icon={<VerticalLeftOutlined />}></Button>
+          <Divider type="vertical" />
+          <Button size="small" type="text" icon={<ReloadOutlined />}></Button>
+          <Button size="small" type="text" icon={<PlusOutlined />}></Button>
         </div>
         <div className={styles.tableContent}>
           {datasource.length > 0 ?

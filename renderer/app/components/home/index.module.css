@@ -83,9 +83,21 @@
                     height: 100%;
 
                     .consoleHeader {
-                        margin-bottom: 20px;
-                        margin-inline: 20px;
+                        padding: 8px;
+                        margin-bottom: 8px;
                         flex-shrink: 0;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                        .runBtn {
+                            color: var(--color-primary);
+                        }
+                        
+                        .stopBtn {
+                            color: #ff4d4f;
+                        }
+                        
+                        .formatBtn {
+                        }
                     }
 
                     .monacoEditor {
@@ -102,7 +114,7 @@
                             /*color: #6e6e6e;*/
                             padding: 2px 8px;
                             width: 100%;
-                            background-color: var(--color-bg-secondary);
+                            /*background-color: var(--color-bg-secondary);*/
                             flex-shrink: 0;
                             border-block: 1px solid var(--color-border-primary);
 
