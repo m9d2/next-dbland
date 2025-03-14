@@ -53,6 +53,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: 100%;
 
             .header {
                 user-select: none;
@@ -74,7 +75,7 @@
                 display: flex;
                 flex-direction: column;
                 font-size: 13px;
-                height: 100%;
+                overflow: hidden;
 
                 .console {
                     display: flex;
@@ -84,6 +85,7 @@
                     .consoleHeader {
                         margin-bottom: 20px;
                         margin-inline: 20px;
+                        flex-shrink: 0;
                     }
 
                     .monacoEditor {
@@ -97,28 +99,55 @@
                         overflow: auto;
 
                         .tableMenu {
+                            /*color: #6e6e6e;*/
+                            padding: 2px 8px;
                             width: 100%;
-                            height: 30px;
-                            background-color: #ccc;
+                            background-color: var(--color-bg-secondary);
+                            flex-shrink: 0;
+                            border-block: 1px solid var(--color-border-primary);
+
+                            & button {
+                                color: inherit;
+                            }
                         }
 
                         .tableFooter {
+                            display: flex;
+                            justify-content: space-between; /* 两个元素分布在左右两端 */
+                            align-items: center; /* 垂直居中对齐 */
                             width: 100%;
+                            padding: 10px;
                             height: 30px;
-                            background-color: var(--color-input-bg);
+                            background-color: var(--color-bg-secondary);
                             flex-shrink: 0;
+                            font-size: 12px;
+                            
+                            .executeInfo {
+                                line-height: 30px;
+                                padding: 0 8px;
+                            }
+                            
+                            .executeSql {
+                                margin-left: auto;
+                                margin-right: auto;
+                                text-align: center;
+                            }
                         }
 
                         .tableContent {
                             flex-grow: 1;
-                            overflow: auto;
-                        }
+                            overflow: hidden;
+                            
+                            .table {
+                                overflow: hidden;
+                            }
 
-                        .noTable {
-                            flex-grow: 1;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
+                            .noTable {
+                                height: 100%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
                         }
                     }
                 }

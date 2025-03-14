@@ -25,3 +25,7 @@
 .ant-tabs-tabpane {
     height: 100%;
 }
+
+* {
+    box-sizing: border-box;
+}

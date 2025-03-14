@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getConfigs, getDatabase, getTables } from '@/tools/api';
+import { userConfigStore } from '@/store/useConfigStore';
 
 interface TreeNode {
   title: string;
@@ -11,6 +12,7 @@ interface TreeNode {
 
 export function useTreeData() {
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
+  const {setConfigs} = userConfigStore();
 
   const updateTreeData = (node: TreeNode) => {
     setTreeData((prevTreeData) => {
@@ -92,6 +94,7 @@ export function useTreeData() {
         item.type = 'config';
       });
       setTreeData(data);
+      setConfigs(data);
     };
 
     fetchConfigs();
