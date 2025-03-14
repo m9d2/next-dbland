@@ -12,7 +12,6 @@ import StopSvg from '@/components/svg/Stop';
 import Draggable from '@/components/draggable';
 import { getDatabase, query } from '@/tools/api';
 import { useTreeStore } from '@/store/useTreeStore';
-import MonacoEditor from 'react-monaco-editor/lib/editor';
 import {
   LeftOutlined,
   PlusOutlined,
@@ -23,7 +22,7 @@ import {
 } from '@ant-design/icons';
 import { userConfigStore } from '@/store/useConfigStore';
 import FormatSvg from '@/components/svg/Format';
-
+import Editor from '@monaco-editor/react';
 const { DirectoryTree } = Tree;
 
 
@@ -170,12 +169,13 @@ function ConsoleSection() {
           onSelect={onSelectDatabase}
         />
         <div>
-          <Button size='small' className={styles.runBtn} title="运行" type="link" icon={<RunSvg />} onClick={querySql}></Button>
-          <Button size='small' className={styles.stopBtn} title="停止" type="link" icon={<StopSvg />} />
-          <Button size='small' className={styles.formatBtn} title="格式化" type="link" icon={<FormatSvg />} />
+          <Button size="small" className={styles.runBtn} title="运行" type="link" icon={<RunSvg />}
+                  onClick={querySql}></Button>
+          <Button size="small" className={styles.stopBtn} title="停止" type="link" icon={<StopSvg />} />
+          <Button size="small" className={styles.formatBtn} title="格式化" type="link" icon={<FormatSvg />} />
         </div>
       </Space>
-      <MonacoEditor
+      <Editor
         className={styles.monacoEditor}
         value={editorValue}
         height="150"
@@ -183,7 +183,7 @@ function ConsoleSection() {
         options={monacoOptions}
         onChange={handleEditorChange}
       />
-      <Draggable minSize={100} bgColor="transparent" direction={'column'} />
+      <Draggable minSize={100} direction={'column'} />
       <div className={styles.tableWrapper} ref={(ref) => setTableHeight(ref?.clientHeight - 60)}>
         <div className={styles.tableMenu}>
           <Button size="small" type="text" icon={<VerticalRightOutlined />}></Button>
@@ -273,7 +273,7 @@ function Home() {
           </div>
           <DatabaseSection className={styles.database} />
         </div>
-        <Draggable minSize={100} bgColor="transparent" />
+        <Draggable minSize={100} />
         <div className={styles.content}>
           <div className={styles.header}>
             <HeaderSection menus={menus} />

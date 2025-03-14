@@ -1,52 +1,49 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 interface DraggableProps {
   minSize?: number;
   maxSize?: number;
   direction?: 'column' | 'row';
   size?: number;
-  bgColor?: string;
 }
 
 const DraggableWrapper = styled.div<{
   direction: 'column' | 'row';
   size: number;
-  bgcolor: string;
 }>`
-  position: relative;
-  cursor: ${({ direction }) => (direction === 'row' ? 'col-resize' : 'row-resize')};
-  height: 'inherit';
+    position: relative;
+    cursor: ${({ direction }) => (direction === 'row' ? 'col-resize' : 'row-resize')};
+    height: 'inherit';
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: ${({ direction }) => (direction === 'row' ? '0' : '100%')};
-    left: ${({ direction }) => (direction === 'row' ? '100%' : '0')};
-    width: ${({ direction, size }) => (direction === 'row' ? `${size}px` : '100%')};
-    height: ${({ direction, size }) => (direction === 'column' ? `${size}px` : '100%')};
-    z-index: 999;
-    transition: background-color 0s;
-  }
+    &::after {
+        content: '';
+        position: absolute;
+        top: ${({ direction }) => (direction === 'row' ? '0' : '100%')};
+        left: ${({ direction }) => (direction === 'row' ? '100%' : '0')};
+        width: ${({ direction, size }) => (direction === 'row' ? `${size}px` : '100%')};
+        height: ${({ direction, size }) => (direction === 'column' ? `${size}px` : '100%')};
+        z-index: 999;
+        transition: background-color 0s;
+    }
 
-  &:hover::after {
-    background: ${({ bgcolor }) => bgcolor};
-    transition: background-color 0.5s;
-  }
+    &:hover::after {
+        background: transparent;
+        transition: background-color 0.5s;
+    }
 
-  &:active::after {
-    background: ${({ bgcolor }) => bgcolor};
-  }
+    &:active::after {
+        background: transparent;
+    }
 `;
 
 export default function Draggable({
-  minSize,
-  maxSize,
-  direction = 'row',
-  size = 4,
-  bgColor = '#3498db',
-}: DraggableProps) {
+                                    minSize,
+                                    maxSize,
+                                    direction = 'row',
+                                    size = 4,
+                                  }: DraggableProps) {
   const draggableRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
@@ -121,6 +118,6 @@ export default function Draggable({
   }, []);
 
   return (
-    <DraggableWrapper ref={draggableRef} direction={direction} size={size} bgcolor={bgColor} />
+    <DraggableWrapper ref={draggableRef} direction={direction} size={size} />
   );
 }

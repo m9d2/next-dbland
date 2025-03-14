@@ -1,3 +1,4 @@
+'use client';
 import React, { FC, useEffect, useRef } from 'react';
 import styles from './index.module.scss';
 import usePlatform, { PlatformType } from '@/hooks/usePlatform';

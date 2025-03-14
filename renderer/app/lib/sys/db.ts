@@ -10,7 +10,7 @@ export default class DBDriver {
       if (err) {
         console.error('Error opening database:', err);
       } else {
-        console.log('Database connection established.');
+        // console.log('Database connection established.');
         this.initializeDB();
       }
     });
@@ -31,7 +31,7 @@ export default class DBDriver {
         if (err) {
           console.error('Error executing SQL script:', err);
         } else {
-          console.log('Database initialized successfully.');
+          // console.log('Database initialized successfully.');
         }
       });
     } else {
